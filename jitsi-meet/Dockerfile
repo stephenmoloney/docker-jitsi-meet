@@ -1,11 +1,11 @@
-FROM tiredofit/nodejs:8-latest
+FROM mhart/alpine-node:10
 LABEL maintainer="Dave Conroy <dave at tiredofit dot ca>"
 
 ARG JITSIMEET_VERSION
 
 ### Set Environment Variables
 ENV ENABLE_SMTP=FALSE
-ENV JITSIMEET_VERSION=${JITSIMEET_VERSION:-2957}
+ENV JITSIMEET_VERSION=${JITSIMEET_VERSION:-2993}
 
 ### Add User
   RUN set -x ; \
@@ -16,6 +16,7 @@ ENV JITSIMEET_VERSION=${JITSIMEET_VERSION:-2957}
       apk add \
           git \
           nginx \
+          curl \
           make \
           ; \
 
@@ -23,8 +24,8 @@ ENV JITSIMEET_VERSION=${JITSIMEET_VERSION:-2957}
     curl -sSL https://codeload.github.com/jitsi/jitsi-meet/tar.gz/jitsi-meet_$JITSIMEET_VERSION | tar xvfz - --strip 1 -C /app/ ; \
     cd /app ; \
 ### Install
-    rm -rf node_modules package-lock.json ; \
-    npm install node-sass@latest ; \
+    rm -rf package-lock.json ; \
+    npm install node-sass@latest \
     npm install ; \
     make ; \
 
