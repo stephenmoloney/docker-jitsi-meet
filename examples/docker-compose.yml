@@ -23,7 +23,7 @@ services:
     build:
       context: ../jicofo
       args:
-        JICOFO_VERSION: 403
+        JICOFO_VERSION: "403"
     container_name: jicofo
     image: jicofo
     volumes:
@@ -67,7 +67,7 @@ services:
     build:
       context: ../jitsi-meet
       args:
-        JITSIMEET_VERSION: 2957
+        JITSIMEET_VERSION: "2957"
     container_name: jitsi-meet
     image: jitsi-meet
     volumes:
