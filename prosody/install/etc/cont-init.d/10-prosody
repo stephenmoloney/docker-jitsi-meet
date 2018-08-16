@@ -156,6 +156,9 @@ Component "focus.$HOST"
 
 EOF
 
+  # delay a bit incase certs have not been generated just yet
+  sleep 25s
+
   if [ -f /certs/$HOST.key ] ; then
     cp -r /certs/$HOST.key /var/lib/prosody/
   fi
@@ -172,67 +175,22 @@ EOF
     cp -r /certs/auth.$HOST.crt /var/lib/prosody/
   fi
 
+
   if [ -f /var/lib/prosody/$HOST.key ] ; then
     echo 'Certificates already exist, skipping..'
   else
-    echo 'Generating Certificates'
-    cat  > /tmp/generate-cert.sh <<EOF;
-#!/usr/bin/expect
-spawn prosodyctl cert generate $HOST
-expect "Choose key size"
-send -- "2048\n"
-expect "countryName"
-send -- "CA\n"
-expect "localityName"
-send -- "\n"
-expect "organizationName"
-send -- "\n"
-expect "organizationalUnitName"
-send -- "\n"
-expect "commonName"
-send -- "\n"
-expect "emailAddress"
-send -- "\n"
-expect ".crt"
-send -- "\n"
-exit 0
-EOF
-    cat  > /tmp/generate-cert-auth.sh <<EOF;
-#!/usr/bin/expect
-spawn prosodyctl cert generate auth.$HOST
-expect "Choose key size"
-send -- "2048\n"
-expect "countryName"
-send -- "CA\n"
-expect "localityName"
-send -- "\n"
-expect "organizationName"
-send -- "\n"
-expect "organizationalUnitName"
-send -- "\n"
-expect "commonName"
-send -- "\n"
-expect "emailAddress"
-send -- "\n"
-expect ".crt"
-send -- "\n"
-exit 0
-EOF
-    chmod +x /tmp/generate-cert.sh
-    chmod +x /tmp/generate-cert-auth.sh
-    sudo -u prosody /usr/bin/with-contenv /tmp/generate-cert.sh >/dev/null
-    sudo -u prosody /usr/bin/with-contenv /tmp/generate-cert-auth.sh >/dev/null
-    ln -sf /etc/prosody/certs/auth.$HOST.crt /usr/local/share/ca-certificates/auth.$HOST.crt
-    ln -sf /etc/prosody/certs/$HOST.crt /usr/local/share/ca-certificates/auth.$HOST.crt
-    cp -R /var/lib/prosody/*.crt /certs/
-    cp -R /var/lib/prosody/*.key /certs/
-fi
+    echo 'Certificates do not yet exist trying to link to previously generated certs'
+    # ln -sf /etc/prosody/certs/auth.$HOST.crt /usr/local/share/ca-certificates/auth.$HOST.crt
+    # ln -sf /etc/prosody/certs/$HOST.crt /usr/local/share/ca-certificates/auth.$HOST.crt
+    # cp -R /var/lib/prosody/*.crt /certs/
+    # cp -R /var/lib/prosody/*.key /certs/
+  fi
+
     ln -s /var/lib/prosody/$HOST.crt /etc/prosody/certs/
     ln -s /var/lib/prosody/$HOST.key /etc/prosody/certs/
-    ln -s /var/lib/prosody/auth.$HOST.crt /etc/prosody/certs/
-    ln -s /var/lib/prosody/auth.$HOST.key /etc/prosody/certs/
+    # ln -s /var/lib/prosody/auth.$HOST.crt /etc/prosody/certs/
+    # ln -s /var/lib/prosody/auth.$HOST.key /etc/prosody/certs/
     update-ca-certificates >/dev/null
-
 
 mkdir -p /tmp/state/
 touch /tmp/state/10-prosody-init
