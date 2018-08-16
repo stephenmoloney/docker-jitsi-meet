@@ -15,6 +15,12 @@ services:
       - JITSI_VIDEO_PASS=secret1
       - JICOFO_PASS=secret2
       - JICOFO_USER_PASS=secret3
+
+      - ENABLE_CRON=TRUE
+      - ENABLE_SMTP=FALSE
+      - ENABLE_ZABBIX=FALSE
+      - TIMEZONE=Etc/UTC
+
     networks:
       - proxy-tier
     restart: always
@@ -36,6 +42,12 @@ services:
 
       - JICOFO_PASS=secret2
       - JICOFO_USER_PASS=secret3
+
+      - ENABLE_CRON=TRUE
+      - ENABLE_SMTP=FALSE
+      - ENABLE_ZABBIX=FALSE
+      - TIMEZONE=Etc/UTC
+
     networks:
       - proxy-tier
     restart: always
@@ -58,6 +70,11 @@ services:
       - JITSI_VIDEO_PASS=secret1
 
       - NETWORK_MODE=NAT
+
+      - ENABLE_CRON=TRUE
+      - ENABLE_SMTP=FALSE
+      - ENABLE_ZABBIX=FALSE
+      - TIMEZONE=Etc/UTC
 
     networks:
       - proxy-tier
@@ -85,6 +102,11 @@ services:
       - JICOFO_USER_PASS=secret3
 
       - PROSODY_HOST=prosody
+
+      - ENABLE_CRON=TRUE
+      - ENABLE_SMTP=FALSE
+      - ENABLE_ZABBIX=FALSE
+      - TIMEZONE=Etc/UTC
 
     networks:
       - proxy-tier
