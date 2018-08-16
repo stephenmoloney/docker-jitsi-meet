@@ -7,6 +7,7 @@ ARG JITSIMEET_VERSION
 ENV ENABLE_SMTP=FALSE
 ENV JITSIMEET_VERSION=${JITSIMEET_VERSION:-2993}
 
+
 ### Add User
   RUN set -x ; \
       adduser -h /app -D -g "Jitsi Meet" -u 2500 jitsi ; \
