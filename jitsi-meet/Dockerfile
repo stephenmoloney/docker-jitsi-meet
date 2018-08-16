@@ -16,15 +16,13 @@ ENV JITSIMEET_VERSION=${JITSIMEET_VERSION:-2993}
       apk add \
           git \
           nginx \
-          curl \
           make \
           ; \
 
 ### Fetch Jitsi Meet
-    curl -sSL https://codeload.github.com/jitsi/jitsi-meet/tar.gz/jitsi-meet_$JITSIMEET_VERSION | tar xvfz - --strip 1 -C /app/ ; \
+    git clone https://github.com/jitsi/jitsi-meet --branch ${JITSIMEET_VERSION} /app/ ; \
     cd /app ; \
 ### Install
-    rm -rf package-lock.json ; \
     npm install node-sass@latest \
     npm install ; \
     make ; \
