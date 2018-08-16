@@ -2,7 +2,7 @@ FROM tiredofit/debian:stretch
 LABEL maintainer="Dave Conroy <dave at tiredofit dot ca>"
 
 ### Set Environment Variables
-  ENV ENABLE_SMTP=FALSE
+  ENV ENABLE_SMTP=${ENABLE_SMTP:-FALSE}
 
 
 ### Add Dependencies      
